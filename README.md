@@ -4,6 +4,9 @@ Performs the reward analysis of NEAR tokens.
 
 ## Usage
 
+- Update the state of your portfolio in [`state.js`](state.js).
+- Run `node main.js`
+
 ```console
 $ node main.js
 ┌── Prices ──┐ 
