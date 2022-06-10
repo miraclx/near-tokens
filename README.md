@@ -2,6 +2,10 @@
 
 Performs the reward analysis of NEAR tokens.
 
+## Demo
+
+[![ASCII Demo](https://github.com/miraclx/near-tokens/raw/master/media/demo.gif)](https://asciinema.org/a/500731?autoplay=1 "Click to view ASCII")
+
 ## Usage
 
 - Update the state of your portfolio in [`state.js`](state.js).
