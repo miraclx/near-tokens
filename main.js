@@ -4,6 +4,12 @@ let utils = require('./utils');
 let state = require('./state');
 
 async function main() {
+  let pools = [...Object.entries(state.pools)].map(([token, meta]) => [
+    token,
+    meta,
+    utils.get_pool_price(meta.id, meta.contract_pair),
+  ]);
+
   let bar = new Progress(1 + Object.values(state.pools).length, {
     clean: true,
     template: '\x1b[38;5;244m(:{completed}/:{total}) :{label}..\x1b[0m',
@@ -18,9 +24,9 @@ async function main() {
   bar.print(`│ NEAR/USD: $${near_usd}`);
   bar.tickValue(1).draw();
 
-  for (let [token, meta] of Object.entries(state.pools)) {
+  for (let [token, meta, price] of pools) {
     bar.label(`${token}/USD`).draw();
-    meta.price = await utils.get_pool_price(meta.id, meta.contract_pair);
+    meta.price = await price;
     bar.print(`│ ${token.padStart(4, ' ')}/USD: $${meta.price * near_usd}`);
     bar.tickValue(1).draw();
   }

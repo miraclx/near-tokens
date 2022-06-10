@@ -85,14 +85,22 @@ let ref_pool = async (pool_id, account_ids) => {
   throw err;
 };
 
-let ft_metadata = account_id =>
-  rpc_query({
-    finality: 'final',
-    request_type: 'call_function',
-    account_id,
-    method_name: 'ft_metadata',
-    args_base64: Buffer.from('{}').toString('base64'),
-  });
+let ft_metadata_cache = new Map();
+
+let ft_metadata = async account_id => {
+  if (!ft_metadata_cache.has(account_id))
+    ft_metadata_cache.set(
+      account_id,
+      await rpc_query({
+        finality: 'final',
+        request_type: 'call_function',
+        account_id,
+        method_name: 'ft_metadata',
+        args_base64: Buffer.from('{}').toString('base64'),
+      }),
+    );
+  return ft_metadata_cache.get(account_id);
+};
 
 let get_pool_price = async (pool_id, account_ids) => {
   let pool_data = await ref_pool(pool_id, account_ids);
