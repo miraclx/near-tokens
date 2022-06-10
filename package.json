@@ -1,0 +1,23 @@
+{
+  "name": "near-tokens",
+  "version": "0.1.0",
+  "description": "Performs the reward analysis of NEAR tokens",
+  "main": "main.js",
+  "author": {
+    "name": "Miraculous Owonubi",
+    "email": "omiraculous@gmail.com",
+    "url": "https://github.com/miraclx"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:miraclx/kairos.git"
+  },
+  "dependencies": {
+    "xprogress": "^0.17.3"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "7.17.0",
+    "eslint-plugin-prettier": "4.0.0"
+  }
+}
