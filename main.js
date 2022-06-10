@@ -83,7 +83,8 @@ async function main() {
         `│   - Reward per month: ${fmt$(utils.fixed(monthly_token_reward), meta.reward.token)} ${
           meta.reward.token !== 'NEAR' ? `≈ ${near$fmt(monthly_token_reward, meta.reward.token)} ` : ''
         }(≈ ${usd$fmt(monthly_token_reward, meta.reward.token)}) (${utils.fixed(
-          (utils.fixed(near$(monthly_token_reward, meta.reward.token) * 100) / total_share_value, 2),
+          utils.fixed(near$(monthly_token_reward, meta.reward.token) * 100) / total_share_value,
+          2,
         )}%)`,
       );
       console.log(
