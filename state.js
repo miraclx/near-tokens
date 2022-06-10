@@ -1,4 +1,5 @@
 let pools = {
+  // https://app.ref.finance/pools
   UTO: {
     id: 2973,
     contract_pair: ['wrap.near', 'utopia.secretskelliessociety.near'],
