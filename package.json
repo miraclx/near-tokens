@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:miraclx/kairos.git"
+    "url": "git@github.com:miraclx/near-tokens.git"
   },
   "dependencies": {
     "xprogress": "^0.17.3"
