@@ -45,11 +45,7 @@ let owned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    /* eslint-disable */
-    shares: [
-      120, 126
-    ]
-    /* eslint-enable */
+    shares: [120, 126],
   },
   EngiNEART: {
     reward: {
@@ -97,9 +93,7 @@ let unowned = {
       token: 'GEAR',
       cadence: 'daily',
     },
-    shares: [
-      200, // only worth it at 50 Ⓝ
-    ],
+    shares: [200], // only worth it at 50 Ⓝ
   },
 };
 
