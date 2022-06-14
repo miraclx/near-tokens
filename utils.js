@@ -1,6 +1,10 @@
+const fs = require('fs');
+const path = require('path');
 const https = require('https');
 const {promisify} = require('util');
 
+let read = promisify(fs.readFile);
+let write = promisify(fs.writeFile);
 let sleep = promisify(setTimeout);
 
 let retry =
@@ -31,10 +35,13 @@ let request = (r, data) =>
   )(r);
 
 let price = (a, b) =>
-  request({
-    host: 'api.coingecko.com',
-    path: `/api/v3/simple/price?ids=${a}&vs_currencies=${b}`,
-  });
+  cache.get('price."near"', 60000, () =>
+    // refreshes every minute
+    request({
+      host: 'api.coingecko.com',
+      path: `/api/v3/simple/price?ids=${a}&vs_currencies=${b}`,
+    }),
+  );
 
 let rpc_query = async params => {
   let response = await request(
@@ -61,48 +68,45 @@ let rpc_query = async params => {
   return response;
 };
 
-let ref_pool = async (pool_id, account_ids) => {
-  let response = await rpc_query({
-    finality: 'final',
-    request_type: 'call_function',
-    account_id: 'v2.ref-finance.near',
-    method_name: 'get_pool',
-    args_base64: Buffer.from(`{"pool_id":${pool_id}}`).toString('base64'),
-  });
-  if ('result' in response && 'result' in response.result) {
-    let {
-      result: {result: pool},
-    } = response;
-    let [a, b] = [new Set(account_ids), new Set(pool.token_account_ids)];
-    if (a.size == b.size && [...a].every(id => b.has(id))) {
-      return pool;
+let ref_pool = (pool_id, account_ids) =>
+  cache.get(`pool."${pool_id}"`, 60000, async () => {
+    // refreshes every minute
+    let response = await rpc_query({
+      finality: 'final',
+      request_type: 'call_function',
+      account_id: 'v2.ref-finance.near',
+      method_name: 'get_pool',
+      args_base64: Buffer.from(`{"pool_id":${pool_id}}`).toString('base64'),
+    });
+    if ('result' in response && 'result' in response.result) {
+      let {
+        result: {result: pool},
+      } = response;
+      let [a, b] = [new Set(account_ids), new Set(pool.token_account_ids)];
+      if (a.size == b.size && [...a].every(id => b.has(id))) {
+        return pool;
+      }
+      let err = new Error('Pool Mismatch');
+      err.expected_ids = account_ids;
+      err.found_ids = pool.token_account_ids;
+      throw err;
     }
-    let err = new Error('Pool Mismatch');
-    err.expected_ids = account_ids;
-    err.found_ids = pool.token_account_ids;
+    let err = new Error('Unexpected RPC Response');
+    err.response = response;
     throw err;
-  }
-  let err = new Error('Unexpected RPC Response');
-  err.response = response;
-  throw err;
-};
+  });
 
-let ft_metadata_cache = new Map();
-
-let ft_metadata = async account_id => {
-  if (!ft_metadata_cache.has(account_id))
-    ft_metadata_cache.set(
+let ft_metadata = account_id =>
+  cache.get(`ft_metadata."${account_id}"`, 24 * 3_600_000, () =>
+    // refreshes every day
+    rpc_query({
+      finality: 'final',
+      request_type: 'call_function',
       account_id,
-      await rpc_query({
-        finality: 'final',
-        request_type: 'call_function',
-        account_id,
-        method_name: 'ft_metadata',
-        args_base64: Buffer.from('{}').toString('base64'),
-      }),
-    );
-  return ft_metadata_cache.get(account_id);
-};
+      method_name: 'ft_metadata',
+      args_base64: Buffer.from('{}').toString('base64'),
+    }),
+  );
 
 let get_pool_price = async (pool_id, account_ids) => {
   let pool_data = await ref_pool(pool_id, account_ids);
@@ -120,4 +124,29 @@ let get_pool_price = async (pool_id, account_ids) => {
 
 const fixed = (v, x = 4) => v.toFixed(x).replace(/0+$/, '').replace(/\.$/, '');
 
-module.exports = {fixed, sleep, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};
+let cache = async () => {
+  if (!cache.loaded) {
+    try {
+      let buf = await read(path.join(__dirname, '.cache'));
+      cache.state = new Map(Object.entries(JSON.parse(Buffer.from(buf.toString(), 'base64').toString())));
+    } catch {}
+    cache.loaded |= 1;
+  }
+  if (!cache.modified) return;
+  cache.modified |= 0;
+  cache.state.set('timestamp', Date.now());
+  let buf = Buffer.from(JSON.stringify(Object.fromEntries(cache.state.entries()))).toString('base64');
+  await write(path.join(__dirname, '.cache'), buf);
+};
+cache.modified = 0;
+cache.loaded = 0;
+cache.state = new Map();
+cache.get = async (key, exp, getter) => {
+  if (!cache.state.has(key) || Date.now() > cache.state.get('timestamp') + exp) {
+    cache.state.set(key, await getter());
+    cache.modified |= 1;
+  }
+  return cache.state.get(key);
+};
+
+module.exports = {fixed, cache, sleep, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};

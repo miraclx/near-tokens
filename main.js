@@ -5,11 +5,14 @@ let state = require('./state');
 
 async function main(args) {
   let arg_state = [
-    ['--prices', 0b001],
-    ['--owned', 0b010],
-    ['--unowned', 0b100],
-  ].reduce((a, [f, m]) => (args.includes(f) ? a | m : a), 0b000);
-  if (!arg_state) arg_state = 0b111;
+    ['--prices', 0b0001],
+    ['--owned', 0b0010],
+    ['--unowned', 0b0100],
+    ['--refresh', 0b1000],
+  ].reduce((a, [f, m]) => (args.includes(f) ? a | m : a), 0b0000);
+  if (!arg_state) arg_state = 0b0111;
+
+  if (!(arg_state & 0b1000)) await utils.cache();
 
   let pools = [...Object.entries(state.pools)].map(([token, meta]) => [
     token,
@@ -40,6 +43,8 @@ async function main(args) {
 
   bar.print('│');
   bar.end('└── Prices ──┘\n');
+
+  await utils.cache();
 
   let fmt$ = (v, token, pre = false, sym = true, spaced = true) => {
     let str = [v, `${token && token !== 'NEAR' ? `${sym ? '$' : ''}${token}` : 'Ⓝ'}`];
