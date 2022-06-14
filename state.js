@@ -64,6 +64,7 @@ let owned = {
   },
   'Tinker Union #671': {
     reward: {
+      // https://docs.google.com/spreadsheets/d/1FFV7no3o2y5ZRFCS4mzwTAk5zR6aioZZ7-PMDY5Wfqg
       value: 2.241842769,
       token: 'GEAR',
       cadence: 'daily',
