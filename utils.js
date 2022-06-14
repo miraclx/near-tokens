@@ -34,8 +34,8 @@ let request = (r, data) =>
   )(r);
 
 let price = (a, b) =>
-  cache.get('price."near"', 60000, () =>
-    // refreshes every minute
+  cache.get('price."near"', 5 * 60000, () =>
+    // refreshes once in 5 minutes
     request({
       host: 'api.coingecko.com',
       path: `/api/v3/simple/price?ids=${a}&vs_currencies=${b}`,
@@ -68,8 +68,8 @@ let rpc_query = async params => {
 };
 
 let ref_pool = (pool_id, account_ids) =>
-  cache.get(`pool."${pool_id}"`, 60000, async () => {
-    // refreshes every minute
+  cache.get(`pool."${pool_id}"`, 5 * 60000, async () => {
+    // refreshes once in 5 minutes
     let response = await rpc_query({
       finality: 'final',
       request_type: 'call_function',
