@@ -5,7 +5,6 @@ const {promisify} = require('util');
 
 let read = promisify(fs.readFile);
 let write = promisify(fs.writeFile);
-let sleep = promisify(setTimeout);
 
 let retry =
   (tries, fn) =>
@@ -149,4 +148,4 @@ cache.get = async (key, exp, getter) => {
   return cache.state.get(key);
 };
 
-module.exports = {fixed, cache, sleep, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};
+module.exports = {fixed, cache, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};

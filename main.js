@@ -103,7 +103,6 @@ async function main(args) {
       console.log(
         `│   -     ROI Timeline: ${utils.fixed(total_share_value / near$(monthly_token_reward, meta.reward.token), 1)} months`,
       );
-      await utils.sleep(200);
     }
     console.log('│');
     console.log(`└── ${header} ──┘`);
