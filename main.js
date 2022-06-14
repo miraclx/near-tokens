@@ -3,7 +3,14 @@ let Progress = require('xprogress');
 let utils = require('./utils');
 let state = require('./state');
 
-async function main() {
+async function main(args) {
+  let arg_state = [
+    ['--prices', 0b001],
+    ['--owned', 0b010],
+    ['--unowned', 0b100],
+  ].reduce((a, [f, m]) => (args.includes(f) ? a | m : a), 0b000);
+  if (!arg_state) arg_state = 0b111;
+
   let pools = [...Object.entries(state.pools)].map(([token, meta]) => [
     token,
     meta,
@@ -47,10 +54,11 @@ async function main() {
   let usd$fmt = (v, token) => fmt$(utils.fixed(near$(v, token) * near_usd), '$', true, false, false);
   let near$fmt = (v, token) => fmt$(utils.fixed(near$(v, token)));
 
-  for (let [header, tokens] of [
-    ['Owned', state.owned],
-    ['Unowned', state.unowned],
+  for (let [header, tokens, mask] of [
+    ['Owned', state.owned, 0b010],
+    ['Unowned', state.unowned, 0b100],
   ]) {
+    if (!(arg_state & mask)) continue;
     if (!Object.keys(tokens).length) continue;
     console.log(`┌── ${header} ──┐`);
     for (let [name, meta] of Object.entries(tokens)) {
@@ -96,7 +104,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main(process.argv.slice(2)).catch(err => {
   console.error(err);
   process.exit(1);
 });
