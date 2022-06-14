@@ -74,15 +74,59 @@ let owned = {
 };
 
 let unowned = {
-  Skellies: {
+  'Undeads Floor': {
+    reward: {
+      value: 1,
+      token: 'UTO',
+      cadence: 'daily',
+    },
+    /* eslint-disable */
+    shares: [
+      17, 17, 17, 17.9, 17.9, 17.9
+    ]
+    /* eslint-enable */
+  },
+  'Grimms Floor': {
+    reward: {
+      value: 6,
+      token: 'UTO',
+      cadence: 'daily',
+    },
+    shares: [124.69, 127, 127, 129.29, 130],
+  },
+  'EngiNEART Offers': {
+    reward: {
+      value: 0.6,
+      token: 'NEAR',
+      cadence: 'monthly',
+    },
+    /* eslint-disable */
+    shares: [
+      21, 17.9, 17.5
+    ]
+    /* eslint-enable */
+  },
+  'EngiNEART Floor': {
+    reward: {
+      value: 0.6,
+      token: 'NEAR',
+      cadence: 'monthly',
+    },
+    /* eslint-disable */
+    shares: [
+      18.87, 18.88, 18.99, 19, 19, 19.99
+    ]
+    /* eslint-enable */
+  },
+  'Skellies Floor': {
     reward: {
       value: 10,
       token: 'UTO',
       cadence: 'daily',
     },
-    shares: [230, 250], // floor
+    shares: [260, 265, 269], // floor
   },
-  'Skullingham Estates': {
+  'Skullingham Estates Floor': {
     reward: {
       value: 12,
       token: 'UTO',
