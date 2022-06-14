@@ -1,6 +1,8 @@
 const https = require('https');
 const {promisify} = require('util');
 
+let sleep = promisify(setTimeout);
+
 let retry =
   (tries, fn) =>
   (...args) =>
@@ -118,4 +120,4 @@ let get_pool_price = async (pool_id, account_ids) => {
 
 const fixed = (v, x = 4) => v.toFixed(x).replace(/0+$/, '').replace(/\.$/, '');
 
-module.exports = {fixed, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};
+module.exports = {fixed, sleep, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};
