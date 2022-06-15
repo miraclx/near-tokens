@@ -178,6 +178,33 @@ let unowned = {
     },
     shares: [200], // only worth it at 50 Ⓝ
   },
+  'NEARton Central District #130 (Offer)': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 271.3 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [100], // [162]
+  },
+  'NEARton Central District #155 (Offer)': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 188.4 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [80], // [95],
+  },
+  'NEARton Central District #40 (Offer)': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 149.81 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [60], // [75]
+  },
 };
 
 module.exports = {pools, owned, unowned};
