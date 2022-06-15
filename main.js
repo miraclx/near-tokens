@@ -65,16 +65,23 @@ async function main(args) {
   ]) {
     if (!(arg_state & mask)) continue;
     if (!Object.keys(tokens).length) continue;
+    let stats = {
+      total_investment: 0,
+      shares: 0,
+      monthly_yield: 0,
+    };
     console.log(`┌── ${header} ──┐`);
     for (let [name, meta] of Object.entries(tokens)) {
       console.log('│');
       console.log(`│ ${name}`);
       let total_share_value = meta.shares.reduce((a, v) => a + v, 0);
-      console.log(`│   - Total Investment: ${fmt$(utils.fixed(total_share_value))}`);
-      console.log(`│   - Number of shares: ${meta.shares.length}`);
-      console.log(`│   -    Average Price: ${fmt$(utils.fixed(total_share_value / meta.shares.length))}`);
+      stats.total_investment += total_share_value;
+      console.log(`│   - Total Investment: ${near$fmt(total_share_value)} (≈ ${usd$fmt(total_share_value)})`);
+      stats.shares += meta.shares.length;
+      console.log(`│   - Number Of Shares: ${meta.shares.length}`);
+      console.log(`│   -    Average Price: ${near$fmt(total_share_value / meta.shares.length)}`);
       console.log(
-        `│   - Reward per share: ${fmt$(utils.fixed(meta.reward.value), meta.reward.token)} ${
+        `│   - Reward Per Share: ${fmt$(utils.fixed(meta.reward.value), meta.reward.token)} ${
           meta.reward.token !== 'NEAR' ? `≈ ${near$fmt(meta.reward.value, meta.reward.token)} ` : ''
         }(≈ ${usd$fmt(meta.reward.value, meta.reward.token)})`,
       );
@@ -88,12 +95,13 @@ async function main(args) {
         daily_token_reward = cummulative_reward / 30;
       } else throw new Error('Unexpected reward cadence');
       console.log(
-        `│   - Reward per   day: ${fmt$(utils.fixed(daily_token_reward), meta.reward.token)} ${
+        `│   - Reward Per   Day: ${fmt$(utils.fixed(daily_token_reward), meta.reward.token)} ${
           meta.reward.token !== 'NEAR' ? `≈ ${near$fmt(daily_token_reward, meta.reward.token)} ` : ''
         }(≈ ${usd$fmt(daily_token_reward, meta.reward.token)})`,
       );
+      stats.monthly_yield += near$(monthly_token_reward, meta.reward.token);
       console.log(
-        `│   - Reward per month: ${fmt$(utils.fixed(monthly_token_reward), meta.reward.token)} ${
+        `│   - Reward Per Month: ${fmt$(utils.fixed(monthly_token_reward), meta.reward.token)} ${
           meta.reward.token !== 'NEAR' ? `≈ ${near$fmt(monthly_token_reward, meta.reward.token)} ` : ''
         }(≈ ${usd$fmt(monthly_token_reward, meta.reward.token)}) (${utils.fixed(
           utils.fixed(near$(monthly_token_reward, meta.reward.token) * 100) / total_share_value,
@@ -104,6 +112,24 @@ async function main(args) {
         `│   -     ROI Timeline: ${utils.fixed(total_share_value / near$(monthly_token_reward, meta.reward.token), 1)} months`,
       );
     }
+
+    console.log('│');
+    console.log(`│ ┌── ${header} Stats ──┐`);
+    console.log('│ │');
+    console.log(`│ │  - Total Investment: ${near$fmt(stats.total_investment)} (≈ ${usd$fmt(stats.total_investment)})`);
+    console.log(`│ │  - Number Of Shares: ${stats.shares}`);
+    let interest_rate = (stats.monthly_yield * 100) / stats.total_investment;
+    console.log(
+      `│ │  -    Monthly Yield: ${near$fmt(stats.monthly_yield)} (≈ ${usd$fmt(stats.monthly_yield)}) (${utils.fixed(
+        (stats.monthly_yield * 100) / stats.total_investment,
+        2,
+      )}%)`,
+    );
+    console.log(`│ │  -              APY: ${utils.fixed(interest_rate * 12, 2)}%`);
+    console.log(`│ │  -     ROI Timeline: ${utils.fixed(stats.total_investment / stats.monthly_yield, 1)} months`);
+    console.log('│ │');
+    console.log(`│ └── ${header} Stats ──┘`);
+
     console.log('│');
     console.log(`└── ${header} ──┘`);
   }

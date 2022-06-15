@@ -55,12 +55,7 @@ let owned = {
       token: 'NEAR',
       cadence: 'monthly',
     },
-    /* eslint-disable */
-    shares: [
-      16.9, 20, 17.3, 19, 16, 17.2, 17.49,
-      17.21, 17.5, 18, 22, 17.5, 17.5, 17.9, 18, 18
-    ]
-    /* eslint-enable */
+    shares: [16.9, 20, 17.3, 19, 16, 17.2, 17.49, 17.21, 17.5, 18, 22, 17.5, 17.5, 17.9, 18, 18],
   },
   'Tinker Union #671': {
     reward: {
@@ -80,11 +75,7 @@ let unowned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    /* eslint-disable */
-    shares: [
-      17, 17, 17, 17.9, 17.9, 17.9
-    ]
-    /* eslint-enable */
+    shares: [17, 17, 17, 17.9, 17.9, 17.9],
   },
   'Grimms Floor': {
     reward: {
@@ -92,7 +83,7 @@ let unowned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    shares: [124.69, 127, 127, 129.29, 130],
+    shares: [115, 124.69, 127, 127, 129.29, 130],
   },
   'EngiNEART Offers': {
     reward: {
@@ -100,11 +91,7 @@ let unowned = {
       token: 'NEAR',
       cadence: 'monthly',
     },
-    /* eslint-disable */
-    shares: [
-      21, 17.9, 17.5
-    ]
-    /* eslint-enable */
+    shares: [21],
   },
   'EngiNEART Floor': {
     reward: {
@@ -112,11 +99,7 @@ let unowned = {
       token: 'NEAR',
       cadence: 'monthly',
     },
-    /* eslint-disable */
-    shares: [
-      18.87, 18.88, 18.99, 19, 19, 19.99
-    ]
-    /* eslint-enable */
+    shares: [18.87, 18.88, 18.99, 19, 19, 19.99],
   },
   'Skellies Floor': {
     reward: {
