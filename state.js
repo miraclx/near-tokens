@@ -57,6 +57,24 @@ let owned = {
     },
     shares: [16.9, 20, 17.3, 19, 16, 17.2, 17.49, 17.21, 17.5, 18, 22, 17.5, 17.5, 17.9, 18, 18],
   },
+  'NEARton Central District #399': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 283.6 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [185],
+  },
+  'NEARton Central District #312': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 190.92 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [85],
+  },
   'Tinker Union #671': {
     reward: {
       // https://docs.google.com/spreadsheets/d/1FFV7no3o2y5ZRFCS4mzwTAk5zR6aioZZ7-PMDY5Wfqg
@@ -66,6 +84,41 @@ let owned = {
     },
     shares: [25],
   },
+  'Good Fortune Felines': {
+    reward: {
+      // 1 SR = 72 $NEKO daily
+      value: 12 * 72,
+      token: 'NEKO',
+      cadence: 'daily',
+    },
+    shares: [40, 15, 15.4],
+  },
+  'Bullish Bulls (NEXP)': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 2 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [25, 11, 7.949],
+  },
+  // 'Antisocial Ape Club #94 (NEXP)': {
+  //   reward: {
+  //     // 10 SR = 1 $NEXP daily
+  //     value: 12 / 10,
+  //     token: 'NEXP',
+  //     cadence: 'daily',
+  //   },
+  //   shares: [110], <──────────────────────┐
+  // },                                      │
+  // 'Antisocial Ape Club #94 (ASAC)': {     │
+  //   reward: {                             │
+  //     value: 3,                           ├──> duplicate
+  //     token: 'ASAC',                      │
+  //     cadence: 'daily',                   │
+  //   },                                    │
+  //   shares: [110], <──────────────────────┘
+  // },
 };
 
 let unowned = {
