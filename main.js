@@ -119,12 +119,23 @@ async function main(args) {
     console.log(`│ │  - Number Of Shares: ${stats.shares}`);
     let interest_rate = (stats.monthly_yield * 100) / stats.total_investment;
     console.log(
-      `│ │  -    Monthly Yield: ${near$fmt(stats.monthly_yield)} (≈ ${usd$fmt(stats.monthly_yield)}) (${utils.fixed(
-        (stats.monthly_yield * 100) / stats.total_investment,
+      `│ │  - Est. Daily Yield: ${near$fmt(stats.monthly_yield / 30)} (≈ ${usd$fmt(stats.monthly_yield / 30)}) (${utils.fixed(
+        interest_rate / 30,
         2,
       )}%)`,
     );
-    console.log(`│ │  -              APY: ${utils.fixed(interest_rate * 12, 2)}%`);
+    console.log(
+      `│ │  -    Monthly Yield: ${near$fmt(stats.monthly_yield)} (≈ ${usd$fmt(stats.monthly_yield)}) (${utils.fixed(
+        interest_rate,
+        2,
+      )}%)`,
+    );
+    console.log(
+      `│ │  -     Annual Yield: ${near$fmt(stats.monthly_yield * 12)} (≈ ${usd$fmt(stats.monthly_yield * 12)}) (${utils.fixed(
+        interest_rate * 12,
+        2,
+      )}%)`,
+    );
     console.log(`│ │  -     ROI Timeline: ${utils.fixed(stats.total_investment / stats.monthly_yield, 1)} months`);
     console.log('│ │');
     console.log(`│ └── ${header} Stats ──┘`);
