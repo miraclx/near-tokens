@@ -75,6 +75,24 @@ let owned = {
     },
     shares: [85],
   },
+  'NEARton Central District #130': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 271.3 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [100],
+  },
+  'NEARton Central District #155': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 188.4 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [80],
+  },
   'Tinker Union #671': {
     reward: {
       // https://docs.google.com/spreadsheets/d/1FFV7no3o2y5ZRFCS4mzwTAk5zR6aioZZ7-PMDY5Wfqg
@@ -178,24 +196,6 @@ let unowned = {
     },
     shares: [200], // only worth it at 50 Ⓝ
   },
-  'NEARton Central District #130 (Offer)': {
-    reward: {
-      // 10 SR = 1 $NEXP daily
-      value: 271.3 / 10,
-      token: 'NEXP',
-      cadence: 'daily',
-    },
-    shares: [100], // [162]
-  },
-  'NEARton Central District #155 (Offer)': {
-    reward: {
-      // 10 SR = 1 $NEXP daily
-      value: 188.4 / 10,
-      token: 'NEXP',
-      cadence: 'daily',
-    },
-    shares: [80], // [95],
-  },
   'NEARton Central District #40 (Offer)': {
     reward: {
       // 10 SR = 1 $NEXP daily
@@ -203,7 +203,7 @@ let unowned = {
       token: 'NEXP',
       cadence: 'daily',
     },
-    shares: [60], // [75]
+    shares: [61], // [75, 69.99]
   },
 };
 
