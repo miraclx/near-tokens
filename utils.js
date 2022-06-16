@@ -129,7 +129,7 @@ let cache = async () => {
       let buf = await read(path.join(__dirname, '.cache'));
       cache.state = new Map(Object.entries(JSON.parse(Buffer.from(buf.toString(), 'base64').toString())));
     } catch {}
-    cache.loaded |= 1;
+    cache.loaded = 1;
   }
   if (!cache.modified) return;
   cache.modified |= 0;
@@ -139,7 +139,7 @@ let cache = async () => {
 };
 cache.modified = 0;
 cache.loaded = 0;
-cache.state = new Map();
+cache.state = new Map([['timestamp', 0]]);
 cache.get = async (key, exp, getter) => {
   if (!cache.state.has(key) || Date.now() > cache.state.get('timestamp') + exp) {
     cache.state.set(key, await getter());
