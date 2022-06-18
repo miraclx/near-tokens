@@ -93,7 +93,7 @@ let owned = {
     },
     shares: [80],
   },
-  'NEARton Central District #40 (Offer)': {
+  'NEARton Central District #40': {
     reward: {
       // 10 SR = 1 $NEXP daily
       value: 149.81 / 10,
@@ -129,22 +129,22 @@ let owned = {
     },
     shares: [25, 11, 7.949],
   },
-  // 'Antisocial Ape Club #94 (NEXP)': {
-  //   reward: {
-  //     // 10 SR = 1 $NEXP daily
-  //     value: 12 / 10,
-  //     token: 'NEXP',
-  //     cadence: 'daily',
-  //   },
-  //   shares: [110], <──────────────────────┐
-  // },                                      │
+  'Antisocial Ape Club #94 (NEXP)': {
+    reward: {
+      // 10 SR = 1 $NEXP daily
+      value: 12 / 10,
+      token: 'NEXP',
+      cadence: 'daily',
+    },
+    shares: [110], // <──────────────────────┐
+  }, //                                      │
   // 'Antisocial Ape Club #94 (ASAC)': {     │
   //   reward: {                             │
-  //     value: 3,                           ├──> duplicate
+  //     value: 3,                           ├──> resolve duplicacy
   //     token: 'ASAC',                      │
   //     cadence: 'daily',                   │
   //   },                                    │
-  //   shares: [110], <──────────────────────┘
+  //   shares: [110], // <───────────────────┘
   // },
 };
 
