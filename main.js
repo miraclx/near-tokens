@@ -11,7 +11,7 @@ async function main(args) {
   ].reduce((a, [f, m]) => (args.includes(f) ? a | m : a), 0b000);
   if (!arg_state) arg_state = 0b111;
 
-  if (args.includes('--refresh')) await utils.cache();
+  if (!args.includes('--refresh')) await utils.cache();
 
   let pools = [...Object.entries(state.pools)].map(([token, meta]) => [
     token,
@@ -24,19 +24,19 @@ async function main(args) {
     template: '\x1b[38;5;244m(:{completed}/:{total}) :{label}..\x1b[0m',
   });
 
-  bar.label('NEAR/USD').draw();
+  bar.label('NEAR').draw();
   let {
     near: {usd: near_usd},
   } = await utils.price('near', 'usd');
   bar.print('┌── Prices ──┐');
   bar.print('│');
-  bar.print(`│ NEAR/USD: $${near_usd}`);
+  bar.print(`│ NEAR: $${near_usd}`);
   bar.tickValue(1).draw();
 
   for (let [token, meta, price] of pools) {
-    bar.label(`${token}/USD`).draw();
+    bar.label(`${token}`).draw();
     meta.price = await price;
-    bar.print(`│ ${token.padStart(4, ' ')}/USD: $${meta.price * near_usd}`);
+    bar.print(`│ ${token.padStart(4, ' ')}: $${meta.price * near_usd}`);
     bar.tickValue(1).draw();
   }
 
