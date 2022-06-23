@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "public-ip": "^6.0.0",
-    "xprogress": "^0.17.3"
+    "xprogress": "^0.18.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.17.0",
