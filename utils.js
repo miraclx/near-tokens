@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
-const {promisify} = require('util');
+import url from 'url';
+import path from 'path';
+import https from 'https';
+import {promisify} from 'util';
+import {readFile, writeFile} from 'fs/promises';
 
-let read = promisify(fs.readFile);
-let write = promisify(fs.writeFile);
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 let retry =
   (tries, fn) =>
@@ -126,7 +126,7 @@ const fixed = (v, x = 4) => v.toFixed(x).replace(/0+$/, '').replace(/\.$/, '');
 let cache = async () => {
   if (!cache.loaded) {
     try {
-      let buf = await read(path.join(__dirname, '.cache'));
+      let buf = await readFile(path.join(__dirname, '.cache'));
       cache.state = new Map(Object.entries(JSON.parse(Buffer.from(buf.toString(), 'base64').toString())));
     } catch {}
     cache.loaded = 1;
@@ -135,7 +135,7 @@ let cache = async () => {
   cache.modified |= 0;
   cache.state.set('timestamp', Date.now());
   let buf = Buffer.from(JSON.stringify(Object.fromEntries(cache.state.entries()))).toString('base64');
-  await write(path.join(__dirname, '.cache'), buf);
+  await writeFile(path.join(__dirname, '.cache'), buf);
 };
 cache.modified = 0;
 cache.loaded = 0;
@@ -148,4 +148,13 @@ cache.get = async (key, exp, getter) => {
   return cache.state.get(key);
 };
 
-module.exports = {fixed, cache, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};
+export default {
+  fixed,
+  cache,
+  get_pool_price,
+  ft_metadata,
+  ref_pool,
+  rpc_query,
+  price,
+  request,
+};

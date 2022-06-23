@@ -1,7 +1,7 @@
-let Progress = require('xprogress');
+import Progress from 'xprogress';
 
-let utils = require('./utils');
-let state = require('./state');
+import utils from './utils.js';
+import state from './state.js';
 
 async function main(args) {
   let arg_state = [
