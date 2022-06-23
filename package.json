@@ -15,6 +15,7 @@
     "url": "git@github.com:miraclx/near-tokens.git"
   },
   "dependencies": {
+    "public-ip": "^6.0.0",
     "xprogress": "^0.17.3"
   },
   "devDependencies": {

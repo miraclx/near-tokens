@@ -139,9 +139,10 @@ let cache = async () => {
 };
 cache.modified = 0;
 cache.loaded = 0;
+cache.forced = false;
 cache.state = new Map([['timestamp', 0]]);
 cache.get = async (key, exp, getter) => {
-  if (!cache.state.has(key) || Date.now() > cache.state.get('timestamp') + exp) {
+  if (!cache.state.has(key) || (!cache.forced && Date.now() > cache.state.get('timestamp') + exp)) {
     cache.state.set(key, await getter());
     cache.modified |= 1;
   }

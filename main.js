@@ -1,9 +1,16 @@
+import {setTimeout} from 'timers/promises';
+import {publicIpv4} from 'public-ip';
 import Progress from 'xprogress';
 
 import utils from './utils.js';
 import state from './state.js';
 
 async function main(args) {
+  let publicIp = publicIpv4({timeout: 1000});
+  publicIp = await Promise.race([publicIp, setTimeout(100).then(() => publicIp.cancel())]);
+
+  utils.cache.forced = !publicIp;
+
   let arg_state = [
     ['--prices', 0b001],
     ['--owned', 0b010],
