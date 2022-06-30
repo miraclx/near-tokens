@@ -73,17 +73,27 @@ async function main(args) {
     if (!Object.keys(tokens).length) continue;
     let stats = {
       total_investment: 0,
+      total_monthly_yield: 0,
       shares: 0,
-      monthly_yield: 0,
+      tokens: {},
     };
     console.log(`┌── ${header} ──┐`);
     for (let [name, meta] of Object.entries(tokens)) {
       console.log('│');
       console.log(`│ ${name}`);
+      stats.tokens[meta.reward.token] ||= {
+        total_investment: 0,
+        total_monthly_yield: 0,
+        collections: 0,
+        shares: 0,
+      };
       let total_share_value = meta.shares.reduce((a, v) => a + v, 0);
       stats.total_investment += total_share_value;
+      stats.tokens[meta.reward.token].total_investment += total_share_value;
       console.log(`│   - Total Investment: ${near$fmt(total_share_value)} (≈ ${usd$fmt(total_share_value)})`);
       stats.shares += meta.shares.length;
+      stats.tokens[meta.reward.token].shares += meta.shares.length;
+      stats.tokens[meta.reward.token].collections += 1;
       console.log(`│   - Number Of Shares: ${meta.shares.length}`);
       console.log(`│   -    Average Price: ${near$fmt(total_share_value / meta.shares.length)}`);
       console.log(
@@ -105,7 +115,8 @@ async function main(args) {
           meta.reward.token !== 'NEAR' ? `≈ ${near$fmt(daily_token_reward, meta.reward.token)} ` : ''
         }(≈ ${usd$fmt(daily_token_reward, meta.reward.token)})`,
       );
-      stats.monthly_yield += near$(monthly_token_reward, meta.reward.token);
+      stats.total_monthly_yield += near$(monthly_token_reward, meta.reward.token);
+      stats.tokens[meta.reward.token].total_monthly_yield += monthly_token_reward;
       console.log(
         `│   - Reward Per Month: ${fmt$(utils.fixed(monthly_token_reward), meta.reward.token)} ${
           meta.reward.token !== 'NEAR' ? `≈ ${near$fmt(monthly_token_reward, meta.reward.token)} ` : ''
@@ -124,29 +135,56 @@ async function main(args) {
     console.log('│ │');
     console.log(`│ │  - Total Investment: ${near$fmt(stats.total_investment)} (≈ ${usd$fmt(stats.total_investment)})`);
     console.log(`│ │  - Number Of Shares: ${stats.shares}`);
-    let interest_rate = (stats.monthly_yield * 100) / stats.total_investment;
+    let interest_rate = (stats.total_monthly_yield * 100) / stats.total_investment;
     console.log(
-      `│ │  - Est. Daily Yield: ${near$fmt(stats.monthly_yield / 30)} (≈ ${usd$fmt(stats.monthly_yield / 30)}) (${utils.fixed(
-        interest_rate / 30,
-        2,
-      )}%)`,
+      `│ │  - Est. Daily Yield: ${near$fmt(stats.total_monthly_yield / 30)} (≈ ${usd$fmt(
+        stats.total_monthly_yield / 30,
+      )}) (${utils.fixed(interest_rate / 30, 2)}%)`,
     );
     console.log(
-      `│ │  -    Monthly Yield: ${near$fmt(stats.monthly_yield)} (≈ ${usd$fmt(stats.monthly_yield)}) (${utils.fixed(
+      `│ │  -    Monthly Yield: ${near$fmt(stats.total_monthly_yield)} (≈ ${usd$fmt(stats.total_monthly_yield)}) (${utils.fixed(
         interest_rate,
         2,
       )}%)`,
     );
     console.log(
-      `│ │  -     Annual Yield: ${near$fmt(stats.monthly_yield * 12)} (≈ ${usd$fmt(stats.monthly_yield * 12)}) (${utils.fixed(
-        interest_rate * 12,
-        2,
-      )}%)`,
+      `│ │  -     Annual Yield: ${near$fmt(stats.total_monthly_yield * 12)} (≈ ${usd$fmt(
+        stats.total_monthly_yield * 12,
+      )}) (${utils.fixed(interest_rate * 12, 2)}%)`,
     );
-    console.log(`│ │  -     ROI Timeline: ${utils.fixed(stats.total_investment / stats.monthly_yield, 1)} months`);
+    console.log(`│ │  -     ROI Timeline: ${utils.fixed(stats.total_investment / stats.total_monthly_yield, 1)} months`);
+    console.log('│ │');
+    console.log(`│ │ ┌── Token Breakdown ──┐`);
+    console.log('│ │ │');
+    for (let [token_name, token_meta] of Object.entries(stats.tokens)) {
+      console.log(`│ │ │ ${token_name}`);
+      console.log(
+        `│ │ │   - Total Investment: ${near$fmt(token_meta.total_investment)} (≈ ${usd$fmt(token_meta.total_investment)})`,
+      );
+      console.log(`│ │ │   - Number Of Shares: ${token_meta.shares} [${token_meta.collections} collection(s)]`);
+      let near_monthly_yield = near$(token_meta.total_monthly_yield, token_name);
+      let interest_rate = (near_monthly_yield * 100) / token_meta.total_investment;
+      console.log(
+        `│ │ │   - Est. Daily Yield: ${near$fmt(token_meta.total_monthly_yield / 30, token_name)} (≈ ${usd$fmt(
+          near_monthly_yield / 30,
+        )}) (${utils.fixed(interest_rate / 30, 2)}%)`,
+      );
+      console.log(
+        `│ │ │   -    Monthly Yield: ${near$fmt(token_meta.total_monthly_yield, token_name)} (≈ ${usd$fmt(
+          near_monthly_yield,
+        )}) (${utils.fixed(interest_rate, 2)}%)`,
+      );
+      console.log(
+        `│ │ │   -     Annual Yield: ${near$fmt(token_meta.total_monthly_yield * 12, token_name)} (≈ ${usd$fmt(
+          near_monthly_yield * 12,
+        )}) (${utils.fixed(interest_rate * 12, 2)}%)`,
+      );
+      console.log(`│ │ │   -     ROI Timeline: ${utils.fixed(token_meta.total_investment / near_monthly_yield, 1)} months`);
+      console.log('│ │ │');
+    }
+    console.log(`│ │ └── Token Breakdown ──┘`);
     console.log('│ │');
     console.log(`│ └── ${header} Stats ──┘`);
-
     console.log('│');
     console.log(`└── ${header} ──┘`);
   }
