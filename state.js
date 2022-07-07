@@ -199,4 +199,4 @@ let unowned = {
   },
 };
 
-export default {pools, owned, unowned};
+export {pools, owned, unowned};

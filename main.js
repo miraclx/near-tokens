@@ -2,8 +2,8 @@ import {setTimeout} from 'timers/promises';
 import {publicIpv4} from 'public-ip';
 import Progress from 'xprogress';
 
-import utils from './utils.js';
-import state from './state.js';
+import * as utils from './utils.js';
+import * as state from './state.js';
 
 async function main(args) {
   let publicIp = publicIpv4({timeout: 1000});

@@ -149,13 +149,4 @@ cache.get = async (key, exp, getter) => {
   return cache.state.get(key);
 };
 
-export default {
-  fixed,
-  cache,
-  get_pool_price,
-  ft_metadata,
-  ref_pool,
-  rpc_query,
-  price,
-  request,
-};
+export {fixed, cache, get_pool_price, ft_metadata, ref_pool, rpc_query, price, request};
