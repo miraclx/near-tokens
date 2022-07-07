@@ -165,19 +165,28 @@ async function main(args) {
       let near_monthly_yield = near$(token_meta.total_monthly_yield, token_name);
       let interest_rate = (near_monthly_yield * 100) / token_meta.total_investment;
       console.log(
-        `│ │ │   - Est. Daily Yield: ${near$fmt(token_meta.total_monthly_yield / 30, token_name)} (≈ ${usd$fmt(
-          near_monthly_yield / 30,
-        )}) (${utils.fixed(interest_rate / 30, 2)}%)`,
+        `│ │ │   - Est. Daily Yield: ${
+          token_name !== 'NEAR' ? `${fmt$(utils.fixed(token_meta.total_monthly_yield / 30), token_name)} ≈ ` : ''
+        }${near$fmt(token_meta.total_monthly_yield / 30, token_name)} (≈ ${usd$fmt(near_monthly_yield / 30)}) (${utils.fixed(
+          interest_rate / 30,
+          2,
+        )}%)`,
       );
       console.log(
-        `│ │ │   -    Monthly Yield: ${near$fmt(token_meta.total_monthly_yield, token_name)} (≈ ${usd$fmt(
-          near_monthly_yield,
-        )}) (${utils.fixed(interest_rate, 2)}%)`,
+        `│ │ │   -    Monthly Yield: ${
+          token_name !== 'NEAR' ? `${fmt$(utils.fixed(token_meta.total_monthly_yield), token_name)} ≈ ` : ''
+        }${near$fmt(token_meta.total_monthly_yield, token_name)} (≈ ${usd$fmt(near_monthly_yield)}) (${utils.fixed(
+          interest_rate,
+          2,
+        )}%)`,
       );
       console.log(
-        `│ │ │   -     Annual Yield: ${near$fmt(token_meta.total_monthly_yield * 12, token_name)} (≈ ${usd$fmt(
-          near_monthly_yield * 12,
-        )}) (${utils.fixed(interest_rate * 12, 2)}%)`,
+        `│ │ │   -     Annual Yield: ${
+          token_name !== 'NEAR' ? `${fmt$(utils.fixed(token_meta.total_monthly_yield * 12), token_name)} ≈ ` : ''
+        }${near$fmt(token_meta.total_monthly_yield * 12, token_name)} (≈ ${usd$fmt(near_monthly_yield * 12)}) (${utils.fixed(
+          interest_rate * 12,
+          2,
+        )}%)`,
       );
       console.log(`│ │ │   -     ROI Timeline: ${utils.fixed(token_meta.total_investment / near_monthly_yield, 1)} months`);
       console.log('│ │ │');
