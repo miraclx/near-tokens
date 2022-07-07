@@ -51,7 +51,15 @@ let owned = {
   },
   EngiNEART: {
     reward: {
-      value: 0.6,
+      /**
+       * ┌ history
+       * │ 07/06/2022: (owned 1)
+       * │   https://explorer.mainnet.near.org/transactions/4BungX8BkYCYcauc3WT8CmN91dsfZ2kFD2xwktjinpu2
+       * value: 0.6,
+       * │ 05/07/2022: (owned 17)
+       * │   https://explorer.mainnet.near.org/transactions/EFPU3ax2g6fUWxRPEFQdTDkgkud1Ew6KSPV6zXhwHREY
+       */
+      value: 0.3,
       token: 'NEAR',
       cadence: 'monthly',
     },
