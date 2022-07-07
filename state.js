@@ -163,7 +163,7 @@ let unowned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    shares: [17, 17, 17, 17.9, 17.9, 17.9],
+    shares: [9.98, 9.99, 10, 10.25, 10.5],
   },
   'Grimms Floor': {
     reward: {
@@ -171,15 +171,7 @@ let unowned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    shares: [115, 124.69, 127, 127, 129.29, 130],
-  },
-  'EngiNEART Offers': {
-    reward: {
-      value: 0.6,
-      token: 'NEAR',
-      cadence: 'monthly',
-    },
-    shares: [21],
+    shares: [83, 85, 85, 85],
   },
   'EngiNEART Floor': {
     reward: {
@@ -187,7 +179,7 @@ let unowned = {
       token: 'NEAR',
       cadence: 'monthly',
     },
-    shares: [18.87, 18.88, 18.99, 19, 19, 19.99],
+    shares: [15, 15, 15, 15, 15, 15],
   },
   'Skellies Floor': {
     reward: {
@@ -195,7 +187,7 @@ let unowned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    shares: [260, 265, 269], // floor
+    shares: [230, 240, 240, 240, 250, 250],
   },
   'Skullingham Estates Floor': {
     reward: {
@@ -203,15 +195,7 @@ let unowned = {
       token: 'UTO',
       cadence: 'daily',
     },
-    shares: [350, 350], // floor
-  },
-  'Tinker Union #1843 (Rank #1)': {
-    reward: {
-      value: 5.288759074,
-      token: 'GEAR',
-      cadence: 'daily',
-    },
-    shares: [200], // only worth it at 50 Ⓝ
+    shares: [299], // worth it at 100 Ⓝ
   },
 };
 
