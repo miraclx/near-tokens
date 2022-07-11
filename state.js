@@ -49,6 +49,27 @@ let owned = {
     },
     shares: [120, 126],
   },
+  'Skellie Potions (Red)': {
+    reward: {
+      value: 5,
+      token: 'UTO',
+      cadence: 'daily',
+    },
+    shares: [
+      8, // 550 UTO at the time
+    ],
+  },
+  'Skellie Potions (Green)': {
+    reward: {
+      value: 3,
+      token: 'UTO',
+      cadence: 'daily',
+    },
+    shares: [
+      8,
+      8, // 550 UTO at the time
+    ],
+  },
   EngiNEART: {
     reward: {
       /**
